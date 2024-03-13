@@ -18,4 +18,6 @@ buildNumber.properties
 
 .DS_STORE
 .idea/
+.gradle/
+build/
 

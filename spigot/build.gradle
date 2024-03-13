@@ -1,0 +1,28 @@
+plugins {
+    id("java")
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+}
+
+dependencies {
+    implementation project(':common')
+    compileOnly 'org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT'
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveFileName = 'gardens-sprouter-spigot.jar'
+    dependencies {
+        include(dependency(":common"))
+    }
+}

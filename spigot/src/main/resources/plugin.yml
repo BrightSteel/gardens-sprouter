@@ -1,0 +1,9 @@
+name: GardensSprouter
+version: 1.0.0
+author: Bright_Steel
+main: com.gardensmc.sprouter.spigot.SprouterSpigot
+api-version: 1.20
+commands:
+  nickname:
+    description: Change player's display name
+    usage: /<command>

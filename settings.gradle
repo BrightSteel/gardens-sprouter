@@ -1,0 +1,2 @@
+rootProject.name = 'gardens-sprouter'
+include ('common', 'spigot')

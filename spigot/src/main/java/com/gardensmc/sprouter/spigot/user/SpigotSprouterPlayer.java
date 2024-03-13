@@ -1,19 +1,20 @@
 package com.gardensmc.sprouter.spigot.user;
 
-import com.sproutermc.sprouter.common.user.User;
+import com.sproutermc.sprouter.common.user.SprouterPlayer;
 import com.sproutermc.sprouter.common.world.Location;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpigotUser implements User {
+public class SpigotSprouterPlayer extends SprouterPlayer {
+
     private final Player player;
 
-    public SpigotUser(Player player) {
+    public SpigotSprouterPlayer(Player player) {
         this.player = player;
     }
 
-    public SpigotUser(CommandSender commandSender) {
+    public SpigotSprouterPlayer(CommandSender commandSender) {
         if (commandSender instanceof Player p) {
             this.player = p;
         } else {

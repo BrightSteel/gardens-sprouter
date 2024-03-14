@@ -21,10 +21,10 @@ public class DatabasePreparation {
     public void executePrepareStatements() {
         try {
             for (String statement : prepareStatements) {
-                GardensSprouter.dbConnector.executeUpdate(statement);
+                GardensSprouter.getDbConnector().executeUpdate(statement);
             }
         } catch (SQLException e) {
-            GardensSprouter.LOGGER.error("Failed to prepare database!", e);
+            GardensSprouter.getSprouterLogger().error("Failed to prepare database!", e);
         }
     }
 }

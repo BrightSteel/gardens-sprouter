@@ -7,3 +7,5 @@ commands:
   nickname:
     description: Change player's display name
     usage: /<command>
+  gameMode:
+    description: Change player's game mode

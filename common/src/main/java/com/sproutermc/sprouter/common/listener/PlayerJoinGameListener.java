@@ -20,7 +20,7 @@ public class PlayerJoinGameListener extends PlayerListener {
     public void callListener() {
         // todo - might want to move to a handler
         LocalDateTime currentTime = LocalDateTime.now(Clock.systemUTC());
-        PlayerEntry playerEntry = GardensSprouter.playerEntryCache.awaitGet(sprouterPlayer.getUuid());
+        PlayerEntry playerEntry = GardensSprouter.getPlayerEntryCache().awaitGet(sprouterPlayer.getUuid());
         if (playerEntry == null) {
             // create entry if none exist; ensures players always have entry in db
             CompletableFuture.supplyAsync(() -> Tables.playerTable.createEntry(

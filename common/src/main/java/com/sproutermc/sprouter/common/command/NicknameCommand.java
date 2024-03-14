@@ -1,6 +1,7 @@
 package com.sproutermc.sprouter.common.command;
 
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.command.type.SprouterCommand;
+import com.sproutermc.sprouter.common.user.SprouterUser;
 
 public class NicknameCommand extends SprouterCommand {
 
@@ -9,7 +10,7 @@ public class NicknameCommand extends SprouterCommand {
     }
 
     @Override
-    public void execute(SprouterPlayer sprouterPlayer, String[] args) {
-        sprouterPlayer.sendMessage("hey");
+    public void execute(SprouterUser sprouterUser, String[] args) {
+        sprouterUser.sendMessage("hey");
     }
 }

@@ -1,5 +1,6 @@
 package com.sproutermc.sprouter.common.database;
 
+import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.database.entry.DatabaseEntry;
 
 import java.io.File;
@@ -12,9 +13,9 @@ public class DatabaseConnector {
     private final Connection sqliteConnection;
     private boolean sqlite = true;
 
-    public DatabaseConnector(File dbDirectory) {
+    public DatabaseConnector() {
         try {
-            this.sqliteConnection = DriverManager.getConnection(String.format("jdbc:sqlite:%s/gardens-sprouter.db", dbDirectory));
+            this.sqliteConnection = DriverManager.getConnection(String.format("jdbc:sqlite:%s/gardens-sprouter.sqlite", GardensSprouter.getSprouterServer().getWorkingDirectory()));
         } catch (SQLException e) {
             throw new RuntimeException("Failed to connect to database!");
         }

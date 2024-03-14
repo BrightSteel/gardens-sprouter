@@ -1,6 +1,6 @@
 package com.gardensmc.sprouter.spigot.listener;
 
-import com.gardensmc.sprouter.spigot.user.SpigotSprouterPlayer;
+import com.gardensmc.sprouter.spigot.user.SpigotPlayer;
 import com.sproutermc.sprouter.common.listener.PlayerJoinGameListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +11,6 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoinGame(PlayerJoinEvent event) {
-        new PlayerJoinGameListener(new SpigotSprouterPlayer(event.getPlayer())).callListener();
+        new PlayerJoinGameListener(new SpigotPlayer(event.getPlayer())).callListener();
     }
 }

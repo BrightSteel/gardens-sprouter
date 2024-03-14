@@ -20,7 +20,7 @@ public class ListenerHandler {
 
     public void registerListeners() {
         listeners.forEach(listener -> Bukkit.getServer().getPluginManager().registerEvents(
-                listener, SprouterSpigot.plugin)
+                listener, SprouterSpigot.getPlugin())
         );
     }
 }

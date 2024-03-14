@@ -5,26 +5,36 @@ import com.sproutermc.sprouter.common.database.DatabasePreparation;
 import com.sproutermc.sprouter.common.database.Tables;
 import com.sproutermc.sprouter.common.database.cache.PlayerEntryCache;
 import com.sproutermc.sprouter.common.logger.SprouterLogger;
+import com.sproutermc.sprouter.common.server.SprouterServer;
+import lombok.Getter;
 
 import java.io.File;
 
 public class GardensSprouter {
+    @Getter
+    private static SprouterLogger sprouterLogger;
 
-    public static SprouterLogger LOGGER;
+    // server
+    @Getter
+    private static SprouterServer sprouterServer;
 
     // db
-    public static DatabaseConnector dbConnector;
-    public static DatabasePreparation dbPreparation;
+    @Getter
+    private static DatabaseConnector dbConnector;
+    @Getter
+    private static DatabasePreparation dbPreparation;
 
     // cache
-    public static PlayerEntryCache playerEntryCache;
+    @Getter
+    private static PlayerEntryCache playerEntryCache;
 
     // needs to be called from both spigot and fabric
-    public static void initialize(File pluginDir, SprouterLogger logger) {
-        LOGGER = logger;
+    public static void initialize(SprouterLogger logger, SprouterServer server) {
+        sprouterLogger = logger;
+        sprouterServer = server;
 
         // db order matters
-        dbConnector = new DatabaseConnector(pluginDir);
+        dbConnector = new DatabaseConnector();
         dbPreparation = new DatabasePreparation();
         Tables.init();
         dbPreparation.executePrepareStatements();

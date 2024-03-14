@@ -23,7 +23,7 @@ public class PlayerTable extends Table {
     public PlayerEntry getEntry(String uuid) {
         try {
             String query = "SELECT * FROM player WHERE uuid = ?";
-            return (PlayerEntry) GardensSprouter.dbConnector.querySingleton(query, new PlayerEntry(), uuid);
+            return (PlayerEntry) GardensSprouter.getDbConnector().querySingleton(query, new PlayerEntry(), uuid);
         } catch (SQLException e) {
             logError(Operation.GET, e);
             return null;
@@ -39,7 +39,7 @@ public class PlayerTable extends Table {
                                 seen
                             ) VALUES (?, ?, ?)
                             """;
-            GardensSprouter.dbConnector.executeUpdate(update,
+            GardensSprouter.getDbConnector().executeUpdate(update,
                     playerEntry.getUuid().toString(),
                     playerEntry.getUsername(),
                     playerEntry.getSeen().toString()
@@ -58,7 +58,7 @@ public class PlayerTable extends Table {
                             SET username = ?, seen = ?
                             WHERE uuid = ?
                             """;
-            GardensSprouter.dbConnector.executeUpdate(update,
+            GardensSprouter.getDbConnector().executeUpdate(update,
                     playerEntry.getUsername(),
                     playerEntry.getSeen().toString(),
                     playerEntry.getUuid().toString()

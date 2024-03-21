@@ -6,6 +6,19 @@ api-version: 1.20
 commands:
   nickname:
     description: Change player's display name
-    usage: /<command>
-  gameMode:
+    usage: /<command> <nickname> [player]
+    aliases: ['nick']
+  gamemode:
     description: Change player's game mode
+    usage: /<command> <gamemode> [player]
+    aliases: ['gm']
+  fly:
+    description: Toggle player's fly mode
+    usage: /<command> [player]
+  me:
+    description: Describe what you are doing
+    usage: /<command> <message>
+  message:
+    description: Message another player
+    usage: /<command> <message>
+    aliases: ['msg', 'm']

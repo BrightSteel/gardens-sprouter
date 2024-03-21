@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class PlayerNotFoundException extends IllegalArgumentException {
-    private final String username;
+public class NoPermissionException extends RuntimeException {
+    private final String permissionNode;
 }

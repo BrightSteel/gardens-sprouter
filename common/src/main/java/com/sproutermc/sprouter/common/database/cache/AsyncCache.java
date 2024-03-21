@@ -11,8 +11,12 @@ public abstract class AsyncCache<K, V> {
     protected final AsyncLoadingCache<K, V> cache;
 
     public AsyncCache() {
+        this(5);
+    }
+
+    public AsyncCache(int expirationInMinutes) {
         cache = Caffeine.newBuilder()
-                .expireAfterAccess(5, TimeUnit.MINUTES)
+                .expireAfterAccess(expirationInMinutes, TimeUnit.MINUTES)
                 .buildAsync((key, executor) -> createCacheEntry(key));
     }
 
@@ -21,6 +25,11 @@ public abstract class AsyncCache<K, V> {
     }
 
     public V awaitGet(K key) {
+        // synchronous calls are less expensive, lets try grabbing it there first
+        V cachedValue = cache.synchronous().getIfPresent(key);
+        if (cachedValue != null) {
+            return cachedValue;
+        }
         try {
             return get(key).get();
         } catch (Exception e) {

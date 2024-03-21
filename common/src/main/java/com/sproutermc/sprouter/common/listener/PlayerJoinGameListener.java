@@ -8,6 +8,7 @@ import com.sproutermc.sprouter.common.user.SprouterPlayer;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class PlayerJoinGameListener extends PlayerListener {
@@ -18,24 +19,29 @@ public class PlayerJoinGameListener extends PlayerListener {
 
     @Override
     public void callListener() {
-        // todo - might want to move to a handler
+        createOrUpdatePlayerEntry();
+        sprouterPlayer.setTabListName(sprouterPlayer.getDisplayName());
+    }
+
+    private void createOrUpdatePlayerEntry() {
         LocalDateTime currentTime = LocalDateTime.now(Clock.systemUTC());
-        PlayerEntry playerEntry = GardensSprouter.getPlayerEntryCache().awaitGet(sprouterPlayer.getUuid());
+        UUID playerUUID = UUID.fromString(sprouterPlayer.getUuid());
+        PlayerEntry playerEntry = GardensSprouter.getPlayerEntryCache().awaitGet(playerUUID);
         if (playerEntry == null) {
             // create entry if none exist; ensures players always have entry in db
             CompletableFuture.supplyAsync(() -> Tables.playerTable.createEntry(
                     new PlayerEntry()
-                            .setUuid(sprouterPlayer.getUuid())
+                            .setUuid(playerUUID)
                             .setUsername(sprouterPlayer.getUsername())
                             .setSeen(currentTime)
-            ));
+            )).thenRun(() -> GardensSprouter.getPlayerEntryCache().remove(playerUUID));
         } else if (!playerEntry.getUsername().equals(sprouterPlayer.getUsername())) {
             // update entry - username and seen
             CompletableFuture.supplyAsync(() -> Tables.playerTable.updateEntry(
                     playerEntry
                             .setUsername(sprouterPlayer.getUsername())
                             .setSeen(currentTime)
-            ));
+            )).thenRun(() -> GardensSprouter.getPlayerEntryCache().remove(playerUUID));
         }
     }
 }

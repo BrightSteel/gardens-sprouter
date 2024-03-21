@@ -1,5 +1,6 @@
 package com.sproutermc.sprouter.common.database.entry;
 
+import com.sproutermc.sprouter.common.chat.ChatUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,10 @@ public class PlayerEntry extends DatabaseEntry {
         this.username = rs.getString("username");
         this.nickname = rs.getString("nickname");
         this.seen = seen;
+    }
+
+    // denormalized nickname for query purposes
+    public String getNicknamePlain() {
+        return nickname == null ? null : ChatUtil.stripFormatting(nickname);
     }
 }

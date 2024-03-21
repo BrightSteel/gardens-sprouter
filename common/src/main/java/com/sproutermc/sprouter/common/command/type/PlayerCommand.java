@@ -3,37 +3,55 @@ package com.sproutermc.sprouter.common.command.type;
 import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.command.exception.InvalidArgumentException;
 import com.sproutermc.sprouter.common.command.exception.InvalidUserException;
+import com.sproutermc.sprouter.common.command.exception.NoPermissionException;
 import com.sproutermc.sprouter.common.command.exception.PlayerNotFoundException;
+import com.sproutermc.sprouter.common.user.OnlineUser;
 import com.sproutermc.sprouter.common.user.SprouterPlayer;
-import com.sproutermc.sprouter.common.user.SprouterUser;
 
 public abstract class PlayerCommand extends SprouterCommand {
-    // todo might want to make a subtype that is RequiredArgsCommand or something, or maybe just include in normal one
-    private final int requiredArgs;
+
+    protected final String permissionNodeOthers;
 
     public PlayerCommand(String name, int requiredArgs) {
+        super(name, requiredArgs);
+        this.permissionNodeOthers = buildPermissionNodeOthers(name);
+    }
+
+    public PlayerCommand(String name) {
         super(name);
-        this.requiredArgs = requiredArgs;
+        this.permissionNodeOthers = buildPermissionNodeOthers(name);
+    }
+
+    public void executeOnSelf(SprouterPlayer player, String[] args) {
+        if (!player.hasPermission(permissionNode)) {
+            throw new NoPermissionException(permissionNode);
+        }
+    }
+
+    public void executeOnPlayer(OnlineUser executor, SprouterPlayer targetPlayer, String[] args) {
+        if (!executor.hasPermission(permissionNodeOthers)) {
+            throw new NoPermissionException(permissionNodeOthers);
+        }
     }
 
     @Override
-    public void execute(SprouterUser sprouterUser, String[] args) {
+    public void execute(OnlineUser onlineUser, String[] args) {
         if (args.length < requiredArgs) {
             throw new InvalidArgumentException();
         } else if (args.length > requiredArgs) { // optional player parameter was specified
             String username = args[requiredArgs];
             // check if user specified themselves
-            if (sprouterUser instanceof SprouterPlayer sprouterPlayer && sprouterPlayer.getUsername().equalsIgnoreCase(username)) {
+            if (onlineUser instanceof SprouterPlayer sprouterPlayer && sprouterPlayer.getUsername().equalsIgnoreCase(username)) {
                 executeOnSelf(sprouterPlayer, args);
             } else {
-                SprouterPlayer targetPlayer = GardensSprouter.getSprouterServer().getOnlinePlayer(username);
+                SprouterPlayer targetPlayer = GardensSprouter.getSprouterServer().getPlayer(username);
                 if (targetPlayer == null) {
                     throw new PlayerNotFoundException(username);
                 }
-                executeOnPlayer(sprouterUser, targetPlayer, args);
+                executeOnPlayer(onlineUser, targetPlayer, args);
             }
         } else {
-            if (sprouterUser instanceof SprouterPlayer sprouterPlayer) {
+            if (onlineUser instanceof SprouterPlayer sprouterPlayer) {
                 executeOnSelf(sprouterPlayer, args);
             } else {
                 throw new InvalidUserException();
@@ -41,7 +59,7 @@ public abstract class PlayerCommand extends SprouterCommand {
         }
     }
 
-    public abstract void executeOnSelf(SprouterPlayer player, String[] args);
-
-    public abstract void executeOnPlayer(SprouterUser executor, SprouterPlayer targetPlayer, String[] args);
+    private String buildPermissionNodeOthers(String name) {
+        return String.format("sprouter.%s.others", name);
+    }
 }

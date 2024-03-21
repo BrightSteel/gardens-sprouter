@@ -6,8 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public abstract class SprouterUser {
-
-    private final String name;
-
-    public abstract void sendMessage(String message);
+    protected final String uuid; // identification purposes; non-players should have pre-defined uuids
+    protected final String displayName;
 }

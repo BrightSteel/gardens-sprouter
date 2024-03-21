@@ -14,6 +14,9 @@ public class Commands {
 
     private static final SprouterCommand nicknameCommand = new NicknameCommand();
     private static final SprouterCommand gameModeCommand = new GameModeCommand();
+    private static final SprouterCommand flyCommand = new FlyCommand();
+    private static final SprouterCommand meCommand = new MeCommand();
+    private static final SprouterCommand messageCommand = new MessageCommand();
 
     public static void addCommandToRegistry(SprouterCommand sprouterCommand) {
         commands.add(sprouterCommand);

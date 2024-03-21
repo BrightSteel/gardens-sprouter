@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public abstract class PlayerListener implements Listener {
-    protected SprouterPlayer sprouterPlayer;
+    protected final SprouterPlayer sprouterPlayer;
 }

@@ -1,16 +1,74 @@
 package com.sproutermc.sprouter.common.command;
 
-import com.sproutermc.sprouter.common.command.type.SprouterCommand;
+import com.sproutermc.sprouter.common.GardensSprouter;
+import com.sproutermc.sprouter.common.command.exception.DatabaseException;
+import com.sproutermc.sprouter.common.command.type.PlayerCommand;
+import com.sproutermc.sprouter.common.database.Tables;
+import com.sproutermc.sprouter.common.database.entry.PlayerEntry;
+import com.sproutermc.sprouter.common.user.OnlineUser;
+import com.sproutermc.sprouter.common.user.SprouterPlayer;
 import com.sproutermc.sprouter.common.user.SprouterUser;
+import com.sproutermc.sprouter.common.user.UserMessageHandler;
 
-public class NicknameCommand extends SprouterCommand {
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+public class NicknameCommand extends PlayerCommand {
 
     public NicknameCommand() {
-        super("nickname");
+        super("nickname", 1);
     }
 
     @Override
-    public void execute(SprouterUser sprouterUser, String[] args) {
-        sprouterUser.sendMessage("hey");
+    public void executeOnSelf(SprouterPlayer player, String[] args) {
+        super.executeOnSelf(player, args);
+        String nickname = args[0];
+        if (updateNickname(UUID.fromString(player.getUuid()), nickname)) {
+            player.setTabListName(player.getDisplayName());
+            new UserMessageHandler(player).sendMessage("Set nickname to " + nickname);
+        } else {
+            throw new DatabaseException();
+        }
+    }
+
+    @Override
+    public void executeOnPlayer(OnlineUser executor, SprouterPlayer targetPlayer, String[] args) {
+        super.executeOnPlayer(executor, targetPlayer, args);
+        String nickname = args[0];
+        if (updateNickname(UUID.fromString(targetPlayer.getUuid()), nickname)) {
+            targetPlayer.setTabListName(targetPlayer.getDisplayName());
+            new UserMessageHandler(executor).sendMessage(
+                    String.format("Set %s's nickname to %s", targetPlayer.getUsername(), nickname)
+            );
+            new UserMessageHandler(executor).sendMessage(
+                    String.format("%s set your nickname to %s", executor.getDisplayName(), nickname)
+            );
+        } else {
+            throw new DatabaseException();
+        }
+    }
+
+    @Override
+    public List<String> getTabCompletion(String[] args) {
+        if (args.length == 1) {
+            return Collections.singletonList("<nickname>");
+        }
+        return super.getTabCompletion(args);
+    }
+
+    private boolean updateNickname(UUID playerUUID, String nickname) {
+        PlayerEntry playerEntry = GardensSprouter.getPlayerEntryCache().awaitGet(playerUUID);
+        CompletableFuture<Boolean> promise = CompletableFuture.supplyAsync(() ->
+                Tables.playerTable.updateEntry(playerEntry.setNickname(nickname))
+        );
+        try {
+            boolean success = promise.get();
+            GardensSprouter.getPlayerEntryCache().remove(playerUUID);
+            return success;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

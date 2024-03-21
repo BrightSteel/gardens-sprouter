@@ -8,7 +8,6 @@ import com.sproutermc.sprouter.common.user.SprouterPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +15,6 @@ import java.util.UUID;
 public class SpigotServer extends SprouterServer {
 
     @Override
-    @Nullable
     public SprouterPlayer getPlayer(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         return player == null ? null : new SpigotPlayer(player);

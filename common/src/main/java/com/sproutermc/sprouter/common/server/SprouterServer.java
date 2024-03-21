@@ -4,6 +4,7 @@ import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.database.entry.PlayerEntry;
 import com.sproutermc.sprouter.common.user.SprouterOfflinePlayer;
 import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.File;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 public abstract class SprouterServer {
 
+    @Nullable
     public abstract SprouterPlayer getPlayer(UUID uuid);
 
     /**
@@ -18,6 +20,7 @@ public abstract class SprouterServer {
      * @param displayNameContains displayName to run a contains on currently online users
      * @return SprouterPlayer matching criteria, or null if none found
      */
+    @Nullable
     public SprouterPlayer getPlayer(String displayNameContains) {
         // first try exact username match, case in-sensitive
         SprouterPlayer player = getPlayerExact(displayNameContains);
@@ -39,6 +42,7 @@ public abstract class SprouterServer {
         return player;
     }
 
+    @Nullable
     public abstract SprouterPlayer getPlayerExact(String username);
 
     /**
@@ -47,6 +51,7 @@ public abstract class SprouterServer {
      * @param displayName to run a contains against for online users, and an equals against offline users (case-insensitive)
      * @return SprouterOfflinePlayer, or SprouterPlayer, matching provided criteria, or null if none found
      */
+    @Nullable
     public SprouterOfflinePlayer getPlayerByDisplayName(String displayName) {
         // first try matching to online users - data gets cached so quick enough
         SprouterPlayer sprouterPlayer = getPlayer(displayName);

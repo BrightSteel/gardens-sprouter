@@ -20,9 +20,9 @@ public class MessageCommand extends SprouterCommand {
     public void execute(OnlineUser sprouterUser, String[] args) {
         super.execute(sprouterUser, args);
         if (args.length == 0) {
-            // view unread messages
+            // todo - view unread messages
         } else if (args.length == 1) {
-            // missing message
+            // missing message argument
             throw new InvalidArgumentException();
         } else {
             String targetName = args[0];

@@ -51,6 +51,6 @@ public class GameModeCommand extends PlayerCommand  {
                     .map(sprouterGameMode -> sprouterGameMode.name().toLowerCase())
                     .toList();
         }
-        return null;
+        return super.getTabCompletion(args);
     }
 }

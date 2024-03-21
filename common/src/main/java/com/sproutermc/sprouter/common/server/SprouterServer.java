@@ -24,22 +24,22 @@ public abstract class SprouterServer {
     public SprouterPlayer getPlayer(String displayNameContains) {
         // first try exact username match, case in-sensitive
         SprouterPlayer player = getPlayerExact(displayNameContains);
-        if (player == null) {
-            // otherwise see if name is contained by any online player's displayName
-            PlayerEntry playerEntry = getOnlinePlayers()
-                    .stream()
-                    .map(p -> GardensSprouter.getPlayerEntryCache().awaitGet(UUID.fromString(p.getUuid())))
-                    .filter(pEntry -> {
-                        String filter = displayNameContains.toLowerCase();
-                        String nickNamePlain = pEntry.getNickname() == null ? "" : pEntry.getNicknamePlain();
-                        return nickNamePlain.toLowerCase().contains(filter) || pEntry.getUsername().toLowerCase().contains(filter);
-                    })
-                    .findFirst().orElse(null);
-            if (playerEntry != null) {
-                return getPlayer(playerEntry.getUuid());
-            }
+        if (player != null) {
+            return player;
         }
-        return player;
+        // otherwise see if name is contained by any online player's displayName
+        PlayerEntry playerEntry = getOnlinePlayers()
+                .stream()
+                .map(p -> GardensSprouter.getPlayerEntryCache().awaitGet(UUID.fromString(p.getUuid())))
+                .filter(pEntry -> {
+                    String filter = displayNameContains.toLowerCase();
+                    String nickNamePlain = pEntry.getNickname() == null ? "" : pEntry.getNicknamePlain();
+                    return nickNamePlain.toLowerCase().contains(filter) || pEntry.getUsername().toLowerCase().contains(filter);
+                })
+                .findFirst()
+                .orElse(null);
+
+        return playerEntry == null ? null : getPlayer(playerEntry.getUuid());
     }
 
     @Nullable
@@ -59,15 +59,8 @@ public abstract class SprouterServer {
             return sprouterPlayer;
         }
         // try to get offline user by displayName (nickname or else username)
-        try {
-            PlayerEntry playerEntry = GardensSprouter.getPlayerEntryCache().getByDisplayName(displayName);
-            if (playerEntry != null) {
-                return new SprouterOfflinePlayer(playerEntry);
-            }
-        } catch (Exception e) {
-            GardensSprouter.getSprouterLogger().error("Failed to get future result", e);
-        }
-        return null;
+        PlayerEntry playerEntry = GardensSprouter.getPlayerEntryCache().getByDisplayName(displayName);
+        return playerEntry == null ? null : new SprouterOfflinePlayer(playerEntry);
     }
 
     public abstract List<? extends SprouterPlayer> getOnlinePlayers();

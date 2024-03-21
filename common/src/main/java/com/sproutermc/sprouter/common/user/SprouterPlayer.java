@@ -1,6 +1,5 @@
 package com.sproutermc.sprouter.common.user;
 
-import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.state.SprouterGameMode;
 import com.sproutermc.sprouter.common.world.SprouterLocation;
 import lombok.EqualsAndHashCode;

@@ -8,6 +8,10 @@ import com.sproutermc.sprouter.common.command.exception.PlayerNotFoundException;
 import com.sproutermc.sprouter.common.user.OnlineUser;
 import com.sproutermc.sprouter.common.user.SprouterPlayer;
 
+/**
+ * For commands following this format:
+ * /<command> <...requiredArgs> [optionalPlayer]
+ */
 public abstract class PlayerCommand extends SprouterCommand {
 
     protected final String permissionNodeOthers;

@@ -19,6 +19,7 @@ public class ChatMessageHandler {
     private final OnlineUser sender;
     private final SprouterUser receiver;
 
+    // todo make these formats configurable
     public void sendMessage(String message) {
         // send messages
         boolean isReceiverOnline;

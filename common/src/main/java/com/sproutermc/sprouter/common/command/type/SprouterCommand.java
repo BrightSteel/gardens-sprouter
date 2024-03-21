@@ -7,14 +7,12 @@ import com.sproutermc.sprouter.common.command.exception.NoPermissionException;
 import com.sproutermc.sprouter.common.command.exception.InvalidUserException;
 import com.sproutermc.sprouter.common.user.OnlineUser;
 import com.sproutermc.sprouter.common.user.SprouterPlayer;
-import com.sproutermc.sprouter.common.user.SprouterUser;
 import com.sproutermc.sprouter.common.command.exception.InvalidArgumentException;
 import com.sproutermc.sprouter.common.command.exception.PlayerNotFoundException;
 import com.sproutermc.sprouter.common.command.exception.DatabaseException;
 import lombok.Getter;
 
 import java.util.List;
-
 
 @Getter
 public abstract class SprouterCommand {
@@ -23,15 +21,15 @@ public abstract class SprouterCommand {
     protected final String permissionNode;
     protected final int requiredArgs;
 
+    public SprouterCommand(String name) {
+        this(name, 0);
+    }
+
     public SprouterCommand(String name, int requiredArgs) {
         this.name = name;
         this.requiredArgs = requiredArgs;
         this.permissionNode = buildPermissionNode(name);
         Commands.addCommandToRegistry(this);
-    }
-
-    public SprouterCommand(String name) {
-        this(name, 0);
     }
 
     /**
@@ -54,12 +52,11 @@ public abstract class SprouterCommand {
     }
 
     public List<String> getTabCompletion(String[] args) {
-        String startsWith = args[args.length - 1];
+        String filter = args[args.length - 1];
         return GardensSprouter.getSprouterServer().getOnlinePlayers()
                 .stream()
-                .map(SprouterPlayer::getDisplayName)
-                .map(ChatUtil::stripFormatting)
-                .filter(s -> s.toLowerCase().startsWith(startsWith.toLowerCase()))
+                .map(sprouterPlayer -> ChatUtil.stripFormatting(sprouterPlayer.getDisplayName()))
+                .filter(displayName -> displayName.toLowerCase().contains(filter.toLowerCase()))
                 .toList();
     }
 

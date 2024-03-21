@@ -25,9 +25,12 @@ public class NicknameCommand extends PlayerCommand {
     public void executeOnSelf(SprouterPlayer player, String[] args) {
         super.executeOnSelf(player, args);
         String nickname = args[0];
+        if (nickname.equalsIgnoreCase("off")) {
+            nickname = null;
+        }
         if (updateNickname(UUID.fromString(player.getUuid()), nickname)) {
             player.setTabListName(player.getDisplayName());
-            new UserMessageHandler(player).sendMessage("Set nickname to " + nickname);
+            new UserMessageHandler(player).sendMessage(nickname == null ? "Removed nickname" : "Set nickname to " + nickname);
         } else {
             throw new DatabaseException();
         }
@@ -37,13 +40,20 @@ public class NicknameCommand extends PlayerCommand {
     public void executeOnPlayer(OnlineUser executor, SprouterPlayer targetPlayer, String[] args) {
         super.executeOnPlayer(executor, targetPlayer, args);
         String nickname = args[0];
+        if (nickname.equalsIgnoreCase("off")) {
+            nickname = null;
+        }
         if (updateNickname(UUID.fromString(targetPlayer.getUuid()), nickname)) {
             targetPlayer.setTabListName(targetPlayer.getDisplayName());
             new UserMessageHandler(executor).sendMessage(
-                    String.format("Set %s's nickname to %s", targetPlayer.getUsername(), nickname)
+                    nickname == null
+                            ? String.format("Removed %s's nickname", targetPlayer.getUsername())
+                            : String.format("Set %s's nickname to %s", targetPlayer.getUsername(), nickname)
             );
             new UserMessageHandler(executor).sendMessage(
-                    String.format("%s set your nickname to %s", executor.getDisplayName(), nickname)
+                    nickname == null
+                            ? String.format("%s removed your nickname", executor.getDisplayName())
+                            : String.format("%s set your nickname to %s", executor.getDisplayName(), nickname)
             );
         } else {
             throw new DatabaseException();
@@ -53,7 +63,7 @@ public class NicknameCommand extends PlayerCommand {
     @Override
     public List<String> getTabCompletion(String[] args) {
         if (args.length == 1) {
-            return Collections.singletonList("<nickname>");
+            return Collections.singletonList("<nickname/off>");
         }
         return super.getTabCompletion(args);
     }

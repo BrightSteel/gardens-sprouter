@@ -5,6 +5,9 @@ import com.sproutermc.sprouter.common.command.type.SprouterCommand;
 import com.sproutermc.sprouter.common.user.OnlineUser;
 import com.sproutermc.sprouter.common.user.SprouterUser;
 
+import java.util.Collections;
+import java.util.List;
+
 public class MeCommand extends SprouterCommand {
 
     public MeCommand() {
@@ -18,5 +21,10 @@ public class MeCommand extends SprouterCommand {
         GardensSprouter.getSprouterServer().broadcastMessage(
                 String.format("&d* %s &d%s", sprouterUser.getDisplayName(), message)
         );
+    }
+
+    @Override
+    public List<String> getTabCompletion(String[] args) {
+        return Collections.emptyList();
     }
 }

@@ -14,7 +14,7 @@ commands:
     aliases: ['gm']
   fly:
     description: Toggle player's fly mode
-    usage: /<command> [player]
+    usage: /<command> [on|off] [player]
   me:
     description: Describe what you are doing
     usage: /<command> <message>

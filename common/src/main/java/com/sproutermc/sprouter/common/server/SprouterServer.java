@@ -2,8 +2,8 @@ package com.sproutermc.sprouter.common.server;
 
 import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.database.entry.PlayerEntry;
-import com.sproutermc.sprouter.common.user.SprouterOfflinePlayer;
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterOfflinePlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.File;

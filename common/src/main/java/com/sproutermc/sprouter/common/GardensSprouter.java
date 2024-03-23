@@ -5,11 +5,13 @@ import com.sproutermc.sprouter.common.database.DatabasePreparation;
 import com.sproutermc.sprouter.common.database.Tables;
 import com.sproutermc.sprouter.common.database.cache.PlayerDisplayNameCache;
 import com.sproutermc.sprouter.common.database.cache.PlayerEntryCache;
+import com.sproutermc.sprouter.common.cache.SimpleCache;
 import com.sproutermc.sprouter.common.logger.SprouterLogger;
 import com.sproutermc.sprouter.common.server.SprouterServer;
+import com.sproutermc.sprouter.common.user.player.PlayerTpRequest;
 import lombok.Getter;
 
-import java.io.File;
+import java.util.UUID;
 
 public class GardensSprouter {
     @Getter
@@ -30,6 +32,8 @@ public class GardensSprouter {
     private static PlayerEntryCache playerEntryCache;
     @Getter
     private static PlayerDisplayNameCache playerDisplayNameCache;
+    @Getter
+    private static SimpleCache<UUID, PlayerTpRequest> playerTpCache;
 
     // needs to be called from both spigot and fabric
     public static void initialize(SprouterLogger logger, SprouterServer server) {
@@ -45,5 +49,6 @@ public class GardensSprouter {
         // caches
         playerEntryCache = new PlayerEntryCache();
         playerDisplayNameCache = new PlayerDisplayNameCache();
+        playerTpCache = new SimpleCache<>(2);
     }
 }

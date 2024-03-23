@@ -3,7 +3,7 @@ package com.gardensmc.sprouter.spigot.user;
 import com.gardensmc.sprouter.spigot.world.SpigotLocationAdapter;
 import com.sproutermc.sprouter.common.chat.ChatUtil;
 import com.sproutermc.sprouter.common.state.SprouterGameMode;
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 import com.sproutermc.sprouter.common.world.SprouterLocation;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -51,5 +51,10 @@ public class SpigotPlayer extends SprouterPlayer {
     @Override
     public void setTabListName(String name) {
         player.setPlayerListName(ChatUtil.translateColors(name));
+    }
+
+    @Override
+    public SprouterLocation getLocation() {
+        return SpigotLocationAdapter.fromSpigotLocation(player.getLocation());
     }
 }

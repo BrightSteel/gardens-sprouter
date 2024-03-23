@@ -6,6 +6,10 @@ import com.sproutermc.sprouter.common.database.entry.UuidEntry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * holds username -> UUID, and or nicknamePlain -> UUID
+ * both, one, or none can be present for one uuid
+ */
 public class PlayerDisplayNameCache extends AsyncCache<String, UUID> {
 
     public PlayerDisplayNameCache() {

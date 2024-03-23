@@ -30,5 +30,6 @@ shadowJar {
     dependencies {
         include(dependency(":common"))
         include(dependency("com.github.ben-manes.caffeine:caffeine"))
+        include(dependency('org.apache.commons:commons-text:1.11.0'))
     }
 }

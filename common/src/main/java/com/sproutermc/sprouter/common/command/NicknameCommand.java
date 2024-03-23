@@ -6,14 +6,16 @@ import com.sproutermc.sprouter.common.command.type.PlayerCommand;
 import com.sproutermc.sprouter.common.database.Tables;
 import com.sproutermc.sprouter.common.database.entry.PlayerEntry;
 import com.sproutermc.sprouter.common.user.OnlineUser;
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
-import com.sproutermc.sprouter.common.user.SprouterUser;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 import com.sproutermc.sprouter.common.user.UserMessageHandler;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+
+import static com.sproutermc.sprouter.common.chat.ColorTheme.formatEmphasis;
+import static com.sproutermc.sprouter.common.chat.ColorTheme.formatPlayer;
 
 public class NicknameCommand extends PlayerCommand {
 
@@ -30,7 +32,7 @@ public class NicknameCommand extends PlayerCommand {
         }
         if (updateNickname(UUID.fromString(player.getUuid()), nickname)) {
             player.setTabListName(player.getDisplayName());
-            new UserMessageHandler(player).sendMessage(nickname == null ? "Removed nickname" : "Set nickname to " + nickname);
+            new UserMessageHandler(player).sendMessage(nickname == null ? "Removed nickname" : "Set nickname to " + formatEmphasis(nickname));
         } else {
             throw new DatabaseException();
         }
@@ -47,13 +49,13 @@ public class NicknameCommand extends PlayerCommand {
             targetPlayer.setTabListName(targetPlayer.getDisplayName());
             new UserMessageHandler(executor).sendMessage(
                     nickname == null
-                            ? String.format("Removed %s's nickname", targetPlayer.getUsername())
-                            : String.format("Set %s's nickname to %s", targetPlayer.getUsername(), nickname)
+                            ? String.format("Removed %s's nickname", formatPlayer(targetPlayer.getUsername()))
+                            : String.format("Set %s's nickname to %s", formatPlayer(targetPlayer.getUsername()), formatEmphasis(nickname))
             );
             new UserMessageHandler(executor).sendMessage(
                     nickname == null
-                            ? String.format("%s removed your nickname", executor.getDisplayName())
-                            : String.format("%s set your nickname to %s", executor.getDisplayName(), nickname)
+                            ? String.format("%s removed your nickname", formatPlayer(executor.getDisplayName()))
+                            : String.format("%s set your nickname to %s", formatPlayer(executor.getDisplayName()), formatEmphasis(nickname))
             );
         } else {
             throw new DatabaseException();
@@ -76,6 +78,11 @@ public class NicknameCommand extends PlayerCommand {
         try {
             boolean success = promise.get();
             GardensSprouter.getPlayerEntryCache().remove(playerUUID);
+            if (playerEntry.getNickname() != null) {
+                // cache can hold both/either username and nickname as keys
+                GardensSprouter.getPlayerDisplayNameCache().remove(playerEntry.getUsername());
+                GardensSprouter.getPlayerDisplayNameCache().remove(playerEntry.getNicknamePlain());
+            }
             return success;
         } catch (Exception e) {
             return false;

@@ -1,6 +1,6 @@
 package com.sproutermc.sprouter.common.listener.type;
 
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

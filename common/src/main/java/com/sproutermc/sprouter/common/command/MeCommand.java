@@ -8,6 +8,8 @@ import com.sproutermc.sprouter.common.user.SprouterUser;
 import java.util.Collections;
 import java.util.List;
 
+import static com.sproutermc.sprouter.common.chat.ColorTheme.formatPlayer;
+
 public class MeCommand extends SprouterCommand {
 
     public MeCommand() {
@@ -19,7 +21,7 @@ public class MeCommand extends SprouterCommand {
         super.execute(sprouterUser, args);
         String message = String.join(" ", args);
         GardensSprouter.getSprouterServer().broadcastMessage(
-                String.format("&d* %s &d%s", sprouterUser.getDisplayName(), message)
+                String.format("&d* %s &d%s", formatPlayer(sprouterUser.getDisplayName()), message)
         );
     }
 

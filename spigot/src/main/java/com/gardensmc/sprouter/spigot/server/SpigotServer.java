@@ -4,7 +4,7 @@ import com.gardensmc.sprouter.spigot.SprouterSpigot;
 import com.gardensmc.sprouter.spigot.user.SpigotPlayer;
 import com.sproutermc.sprouter.common.chat.ChatUtil;
 import com.sproutermc.sprouter.common.server.SprouterServer;
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

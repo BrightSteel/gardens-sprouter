@@ -6,24 +6,29 @@ import com.sproutermc.sprouter.common.command.exception.InvalidUserException;
 import com.sproutermc.sprouter.common.command.exception.NoPermissionException;
 import com.sproutermc.sprouter.common.command.exception.PlayerNotFoundException;
 import com.sproutermc.sprouter.common.user.OnlineUser;
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 
 /**
  * For commands following this format:
- * /<command> <...requiredArgs> [optionalPlayer]
+ * /<command> <...requiredArgs> [...optionalArgs] [optionalPlayer]
  */
 public abstract class PlayerCommand extends SprouterCommand {
 
     protected final String permissionNodeOthers;
+    protected final int optionalArgs;
 
-    public PlayerCommand(String name, int requiredArgs) {
+    public PlayerCommand(String name, int requiredArgs, int optionalArgs) {
         super(name, requiredArgs);
+        this.optionalArgs = optionalArgs;
         this.permissionNodeOthers = buildPermissionNodeOthers(name);
     }
 
+    public PlayerCommand(String name, int requiredArgs) {
+        this(name, requiredArgs, 0);
+    }
+
     public PlayerCommand(String name) {
-        super(name);
-        this.permissionNodeOthers = buildPermissionNodeOthers(name);
+        this(name, 0);
     }
 
     public void executeOnSelf(SprouterPlayer player, String[] args) {
@@ -42,8 +47,8 @@ public abstract class PlayerCommand extends SprouterCommand {
     public void execute(OnlineUser onlineUser, String[] args) {
         if (args.length < requiredArgs) {
             throw new InvalidArgumentException();
-        } else if (args.length > requiredArgs) { // optional player parameter was specified
-            String username = args[requiredArgs];
+        } else if (args.length > requiredArgs + optionalArgs) { // player parameter was specified
+            String username = args[requiredArgs + optionalArgs];
             // check if user specified themselves
             if (onlineUser instanceof SprouterPlayer sprouterPlayer && sprouterPlayer.getUsername().equalsIgnoreCase(username)) {
                 executeOnSelf(sprouterPlayer, args);

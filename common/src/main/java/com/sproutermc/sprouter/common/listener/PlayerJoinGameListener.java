@@ -4,7 +4,7 @@ import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.database.Tables;
 import com.sproutermc.sprouter.common.database.entry.PlayerEntry;
 import com.sproutermc.sprouter.common.listener.type.PlayerListener;
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 
 import java.time.Clock;
 import java.time.LocalDateTime;

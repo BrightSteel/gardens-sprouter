@@ -2,7 +2,7 @@ package com.sproutermc.sprouter.common.listener;
 
 import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.listener.type.PlayerListener;
-import com.sproutermc.sprouter.common.user.SprouterPlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 
 public class PlayerChatListener extends PlayerListener {
 

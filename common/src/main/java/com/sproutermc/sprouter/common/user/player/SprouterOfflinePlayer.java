@@ -1,7 +1,8 @@
-package com.sproutermc.sprouter.common.user;
+package com.sproutermc.sprouter.common.user.player;
 
 import com.sproutermc.sprouter.common.GardensSprouter;
 import com.sproutermc.sprouter.common.database.entry.PlayerEntry;
+import com.sproutermc.sprouter.common.user.SprouterUser;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

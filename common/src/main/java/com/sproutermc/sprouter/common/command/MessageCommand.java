@@ -6,7 +6,7 @@ import com.sproutermc.sprouter.common.command.exception.PlayerNotFoundException;
 import com.sproutermc.sprouter.common.command.type.SprouterCommand;
 import com.sproutermc.sprouter.common.chat.ChatMessageHandler;
 import com.sproutermc.sprouter.common.user.OnlineUser;
-import com.sproutermc.sprouter.common.user.SprouterOfflinePlayer;
+import com.sproutermc.sprouter.common.user.player.SprouterOfflinePlayer;
 
 import java.util.Arrays;
 

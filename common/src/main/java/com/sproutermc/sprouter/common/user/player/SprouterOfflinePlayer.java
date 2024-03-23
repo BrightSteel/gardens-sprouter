@@ -23,12 +23,16 @@ public class SprouterOfflinePlayer extends SprouterUser {
     @Override
     public String getDisplayName() {
         String nickname = GardensSprouter.getPlayerEntryCache()
-                .awaitGet(UUID.fromString(uuid))
+                .awaitGet(getUniqueId())
                 .getNickname();
         return nickname != null ? nickname : super.getDisplayName();
     }
 
     public String getUsername() {
         return super.getDisplayName();
+    }
+
+    public UUID getUniqueId() {
+        return UUID.fromString(uuid);
     }
 }

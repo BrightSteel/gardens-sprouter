@@ -16,7 +16,7 @@ public abstract class SprouterPlayer extends SprouterOfflinePlayer implements On
         super(uuid, username);
     }
 
-    public abstract void teleport(SprouterLocation location);
+    public abstract boolean teleport(SprouterLocation location);
 
     public abstract void setGameMode(SprouterGameMode gameMode);
 
@@ -27,8 +27,4 @@ public abstract class SprouterPlayer extends SprouterOfflinePlayer implements On
     public abstract void setTabListName(String name);
 
     public abstract SprouterLocation getLocation();
-
-    public UUID getUniqueId() {
-        return UUID.fromString(uuid);
-    }
 }

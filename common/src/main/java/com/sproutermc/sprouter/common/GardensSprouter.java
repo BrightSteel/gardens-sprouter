@@ -10,15 +10,19 @@ import com.sproutermc.sprouter.common.logger.SprouterLogger;
 import com.sproutermc.sprouter.common.server.SprouterServer;
 import com.sproutermc.sprouter.common.user.player.PlayerTpRequest;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
+/**
+ * Setters are available for testing only.
+ */
 public class GardensSprouter {
     @Getter
     private static SprouterLogger sprouterLogger;
 
     // server
-    @Getter
+    @Getter @Setter
     private static SprouterServer sprouterServer;
 
     // db
@@ -28,11 +32,11 @@ public class GardensSprouter {
     private static DatabasePreparation dbPreparation;
 
     // cache
-    @Getter
+    @Getter @Setter
     private static PlayerEntryCache playerEntryCache;
-    @Getter
+    @Getter @Setter
     private static PlayerDisplayNameCache playerDisplayNameCache;
-    @Getter
+    @Getter @Setter
     private static SimpleCache<UUID, PlayerTpRequest> playerTpCache;
 
     // needs to be called from both spigot and fabric

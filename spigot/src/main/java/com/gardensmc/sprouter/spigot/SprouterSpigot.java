@@ -60,9 +60,13 @@ public class SprouterSpigot extends JavaPlugin {
             } catch (InvalidUserException e) {
                 userMessageHandler.sendError("Console cannot perform this command!");
             } catch (InvalidArgumentException e) {
-                userMessageHandler.sendError(
-                        "Invalid arguments, must be: " + command.getUsage().replace("<command>", command.getName())
-                ); // not sure why, but getUsage doesn't do this replacement like /help does
+                if (e.getArgumentName() != null) {
+                    userMessageHandler.sendError("Invalid argument provided for " + e.getArgumentName());
+                } else {
+                    userMessageHandler.sendError(
+                            "Invalid arguments, must be: " + command.getUsage().replace("<command>", command.getName())
+                    ); // not sure why, but getUsage doesn't do this replacement like /help does
+                }
             } catch (PlayerNotFoundException e) {
                 userMessageHandler.sendError(String.format("Player '%s' could not be found", e.getUsername()));
             } catch (NoPermissionException e) {

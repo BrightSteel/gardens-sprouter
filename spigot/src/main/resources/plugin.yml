@@ -22,3 +22,18 @@ commands:
     description: Message another player
     usage: /<command> <message>
     aliases: ['msg', 'm']
+  tpa:
+    description: Send a teleport request to another player
+    usage: /<command> <player>
+  tpahere:
+    description: Send a request to teleport a player to you
+    usage: /<command> <player>
+  tp:
+    description: Teleport to another player, or teleport a player to another player
+    usage: /<command> <player> [player]
+  tphere:
+    description: Teleport another player to you
+    usage: /<command> <player>
+  tppos:
+    description: Teleport to a specified position
+    usage: /<command> <x> <y> <y> [yaw] [pitch] [world]

@@ -10,6 +10,7 @@ import com.sproutermc.sprouter.common.user.OnlineUser;
 import com.sproutermc.sprouter.common.command.exception.InvalidArgumentException;
 import com.sproutermc.sprouter.common.command.exception.PlayerNotFoundException;
 import com.sproutermc.sprouter.common.command.exception.DatabaseException;
+import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 import lombok.Getter;
 
 import java.util.List;
@@ -58,6 +59,14 @@ public abstract class SprouterCommand {
                 .map(sprouterPlayer -> ChatUtil.stripFormatting(sprouterPlayer.getDisplayName()))
                 .filter(displayName -> displayName.toLowerCase().contains(filter.toLowerCase()))
                 .toList();
+    }
+
+    protected SprouterPlayer getPlayerOrThrow(String displayNameContains) {
+        SprouterPlayer player = GardensSprouter.getSprouterServer().getPlayer(displayNameContains);
+        if (player == null) {
+            throw new PlayerNotFoundException(displayNameContains);
+        }
+        return player;
     }
 
     private String buildPermissionNode(String name) {

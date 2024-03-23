@@ -25,7 +25,7 @@ public class PlayerJoinGameListener extends PlayerListener {
 
     private void createOrUpdatePlayerEntry() {
         LocalDateTime currentTime = LocalDateTime.now(Clock.systemUTC());
-        UUID playerUUID = UUID.fromString(sprouterPlayer.getUuid());
+        UUID playerUUID = sprouterPlayer.getUniqueId();
         PlayerEntry playerEntry = GardensSprouter.getPlayerEntryCache().awaitGet(playerUUID);
         if (playerEntry == null) {
             // create entry if none exist; ensures players always have entry in db

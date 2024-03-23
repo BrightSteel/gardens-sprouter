@@ -17,6 +17,11 @@ public class Commands {
     private static final SprouterCommand flyCommand = new FlyCommand();
     private static final SprouterCommand meCommand = new MeCommand();
     private static final SprouterCommand messageCommand = new MessageCommand();
+    private static final SprouterCommand tpaCommand = new TpaCommand();
+    private static final SprouterCommand tpaHereCommand = new TpaHereCommand();
+    private static final SprouterCommand tpCommand = new TpCommand();
+    private static final SprouterCommand tpHereCommand = new TpHereCommand();
+    private static final SprouterCommand tpposCommand = new TpposCommand();
 
     public static void addCommandToRegistry(SprouterCommand sprouterCommand) {
         commands.add(sprouterCommand);

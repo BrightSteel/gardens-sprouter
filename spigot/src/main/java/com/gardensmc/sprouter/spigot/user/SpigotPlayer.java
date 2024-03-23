@@ -6,6 +6,7 @@ import com.sproutermc.sprouter.common.state.SprouterGameMode;
 import com.sproutermc.sprouter.common.user.player.SprouterPlayer;
 import com.sproutermc.sprouter.common.world.SprouterLocation;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class SpigotPlayer extends SprouterPlayer {
@@ -29,8 +30,14 @@ public class SpigotPlayer extends SprouterPlayer {
     }
 
     @Override
-    public void teleport(SprouterLocation location) {
-        player.teleport(SpigotLocationAdapter.toSpigotLocation(location));
+    public boolean teleport(SprouterLocation location) {
+        Location loc = SpigotLocationAdapter.toSpigotLocation(location);
+        if (loc.getWorld() == null) {
+            return false;
+        }
+        // I mostly want this method to return false if world is inaccurate
+        // I don't know how/when bukkit teleport fails but might as well pass it ?
+        return player.teleport(loc);
     }
 
     @Override

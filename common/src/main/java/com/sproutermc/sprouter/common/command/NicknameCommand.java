@@ -30,7 +30,7 @@ public class NicknameCommand extends PlayerCommand {
         if (nickname.equalsIgnoreCase("off")) {
             nickname = null;
         }
-        if (updateNickname(UUID.fromString(player.getUuid()), nickname)) {
+        if (updateNickname(player.getUniqueId(), nickname)) {
             player.setTabListName(player.getDisplayName());
             new UserMessageHandler(player).sendMessage(nickname == null ? "Removed nickname" : "Set nickname to " + formatEmphasis(nickname));
         } else {
@@ -45,7 +45,7 @@ public class NicknameCommand extends PlayerCommand {
         if (nickname.equalsIgnoreCase("off")) {
             nickname = null;
         }
-        if (updateNickname(UUID.fromString(targetPlayer.getUuid()), nickname)) {
+        if (updateNickname(targetPlayer.getUniqueId(), nickname)) {
             targetPlayer.setTabListName(targetPlayer.getDisplayName());
             new UserMessageHandler(executor).sendMessage(
                     nickname == null
